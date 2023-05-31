@@ -11,7 +11,7 @@ It simulates with AWS Localstack a publishing of an event in a SNS Topic when re
 - [GoFiber](https://docs.gofiber.io/)
 - [Localstack](https://docs.localstack.cloud)
 - [OpenTelemetry](https://opentelemetry.io/)
-
+ 
 ## Todo
 
 - Telemetry (Tracing and Metrics)

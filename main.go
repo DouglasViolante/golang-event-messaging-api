@@ -2,6 +2,7 @@ package main
 
 import (
 	"event-messaging-api/api/v1/router"
+	"event-messaging-api/internal/telemetry"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -9,6 +10,9 @@ import (
 )
 
 func main() {
+	shutdown := telemetry.InitProvider()
+	defer shutdown()
+
 	app := fiber.New(fiber.Config{AppName: "event-messaging-api"})
 
 	app.Use(cors.New(cors.Config{

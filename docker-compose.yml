@@ -1,0 +1,53 @@
+services:
+
+  # microservice:
+  #   container_name: event-messaging-api
+  #   build: 
+  #     context: ../
+  #     dockerfile: build/package/Dockerfile
+  #   ports:
+  #     - "9101:9101"
+  
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEBUG=${DEBUG-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin:latest
+    ports: 
+      - "9411:9411"
+    
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    volumes:
+      - .dev/prometheus-config.yaml:/etc/prometheus/prometheus.yaml
+    ports:
+      - "9090:9090"
+  
+  otel-collector:
+    container_name: otel-collector
+    image: otel/opentelemetry-collector:latest
+    command: ["--config=/etc/otel-collector-config.yaml", "${OTELCOL_ARGS}"]
+    volumes:
+      - .dev/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "13133:13133" # Health
+      - "55679:55679" # Zpages
+      - "4317:4317"   # gRPC Receiver
+      - "1888:1888"   # pProf
+      - "8888:8888"   # Exposed Prometheus Metrics
+      - "8889:8889"   # Exporter Promtheus Metrics
+    depends_on:
+      - zipkin
+      - prometheus

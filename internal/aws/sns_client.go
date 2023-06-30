@@ -34,10 +34,8 @@ func (s SNSClient) PublishEvent(payment model.Payment) {
     res, err := s.svc.Publish(req)
 	
     if err != nil {
-		log.Fatal(err)
-    }
-
-    log.Print(res)
-
-	fmt.Println("PROCESSING FINISHED!")
+		log.Println(err.Error())
+    } else {
+		fmt.Printf("PROCESSING FINISHED! %s", *res.MessageId)
+	}
 }

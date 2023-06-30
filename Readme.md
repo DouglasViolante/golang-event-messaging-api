@@ -1,9 +1,9 @@
 
 # event-messaging-api
 
-Brief project written with Go exclusively for educational purposes on the use of AWS SDK, GoFiber and OpenTelemetry. 
+A brief project written with Go exclusively for educational purposes on the use of AWS SDK, GoFiber and OpenTelemetry. 
 
-It simulates with AWS Localstack a publishing of an event in a SNS Topic when receiving an API Call.
+It simulates AWS environment with AWS Localstack for publishing an event in a SNS Topic when receiving an API Call, and also generates simples metrics and traces. 
 
 ## Third Party Libs and Tools
 
@@ -14,7 +14,6 @@ It simulates with AWS Localstack a publishing of an event in a SNS Topic when re
  
 ## Todo
 
-- Telemetry (Tracing and Metrics)
 - Fix DockerFile
 
 ## Observability
@@ -26,4 +25,4 @@ It simulates with AWS Localstack a publishing of an event in a SNS Topic when re
 
 - Requires Docker!
 
-- Run the command ```docker-compose up``` in the same folder level as the file ```docker-compose.yml```
+- Run the command ```docker-compose up --force-recreate --build``` in the same folder level as the file ```docker-compose.yml```
